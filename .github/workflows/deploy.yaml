@@ -1,0 +1,47 @@
+name: Deploy to remote Hosting
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Install Composer dependencies
+        run: composer install
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to Remote Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ./api/public_html/api-best-pratices
+            # avoid from git pull error
+            git stash
+            git pull https://${{ secrets.TOKEN_GITHUB }}@github.com/FunBirds/api-best-practices.git
+
+            # install composer dependencies
+            ~/.bin/composer update
+            ~/.bin/composer install
+
+            /usr/bin/php artisan migrate:fresh --seed
+            /usr/bin/php artisan cache:clear
+            /usr/bin/php artisan route:clear
+            /usr/bin/php artisan view:clear
