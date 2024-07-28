@@ -32,7 +32,7 @@ jobs:
           username: ${{ secrets.REMOTE_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd ./api/public_html/api-best-pratices
+            cd ./api/public_html/api-best-practices
             # avoid from git pull error
             git stash
             git pull https://${{ secrets.TOKEN_GITHUB }}@github.com/FunBirds/api-best-practices.git
