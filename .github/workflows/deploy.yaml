@@ -38,8 +38,8 @@ jobs:
             git pull https://${{ secrets.TOKEN_GITHUB }}@github.com/FunBirds/api-best-practices.git
 
             # install composer dependencies
-            ~/.bin/composer update
-            ~/.bin/composer install
+            /opt/php83/bin/php ~/.bin/composer update
+            /opt/php83/bin/php ~/.bin/composer install
 
             /opt/php83/bin/php artisan migrate:fresh --seed
             /opt/php83/bin/php artisan cache:clear
