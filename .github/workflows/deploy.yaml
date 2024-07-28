@@ -41,7 +41,7 @@ jobs:
             ~/.bin/composer update
             ~/.bin/composer install
 
-            /usr/bin/php artisan migrate:fresh --seed
-            /usr/bin/php artisan cache:clear
-            /usr/bin/php artisan route:clear
-            /usr/bin/php artisan view:clear
+            /opt/php83/bin/php artisan migrate:fresh --seed
+            /opt/php83/bin/php artisan cache:clear
+            /opt/php83/bin/php artisan route:clear
+            /opt/php83/bin/php artisan view:clear
